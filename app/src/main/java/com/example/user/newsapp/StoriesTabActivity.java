@@ -5,6 +5,8 @@ import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -21,9 +23,12 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class StoriesTabActivity extends AppCompatActivity {
 
@@ -90,6 +95,12 @@ public class StoriesTabActivity extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+
+        protected RecyclerView mRecyclerView;
+        protected RecyclerView.Adapter mAdapter;
+        protected RecyclerView.LayoutManager mLayoutManager;
+        ArrayList<JSONObject> newsArticles = new ArrayList<JSONObject>();
+
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -115,9 +126,23 @@ public class StoriesTabActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_stories_tab, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+
+            mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cardStoriesRecycleView);
+
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            mRecyclerView.setHasFixedSize(true);
+
+            // use a linear layout manager
+            mLayoutManager = new LinearLayoutManager(rootView.getContext());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+
+            // specify an adapter (see also next example)
+            mAdapter = new MyAdapter(newsArticles);
+            mRecyclerView.setAdapter(mAdapter);
+
             //create backgound ONJ
-            BackgroundTask backgroundTask = new BackgroundTask();
+            BackgroundTask backgroundTask = new BackgroundTask(this);
             //get the section number
             int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
             //switch the section number and execute the call
@@ -152,6 +177,10 @@ public class StoriesTabActivity extends AppCompatActivity {
             }
 
             return rootView;
+        }
+
+        public void dataReady() {
+
         }
     }
 

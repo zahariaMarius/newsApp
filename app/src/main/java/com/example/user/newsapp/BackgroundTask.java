@@ -1,6 +1,8 @@
 package com.example.user.newsapp;
 
 import android.os.AsyncTask;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -9,12 +11,23 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by user on 22/11/2017.
  */
 
 public class BackgroundTask extends AsyncTask<URL, Void, String> {
+
+    StoriesTabActivity.PlaceholderFragment fragment;
+
+    public BackgroundTask(StoriesTabActivity.PlaceholderFragment placeholderFragment) {
+        fragment = placeholderFragment;
+    }
+
+    public BackgroundTask() {
+
+    }
 
     protected String doInBackground(URL... urls) {
         String response = null;
@@ -27,26 +40,29 @@ public class BackgroundTask extends AsyncTask<URL, Void, String> {
         return response;
     }
 
-    protected void onProgressUpdate() {
-    }
-
     protected void onPostExecute(String response) {
         if (response != null) {
-            jsonParse(response);
+            fragment.newsArticles = jsonParse(response);
+            fragment.mAdapter.notifyDataSetChanged();
         }
     }
 
-    protected void jsonParse(String jsonResponse) {
+    protected ArrayList<JSONObject> jsonParse(String jsonResponse) {
+
+        ArrayList<JSONObject> newsArticles = new ArrayList<JSONObject>();
+
         try {
             JSONObject jsonObj = new JSONObject(jsonResponse);
             JSONArray articles = jsonObj.getJSONArray("articles");
 
             for (int i = 0; i < articles.length(); i++) {
                 JSONObject article = articles.getJSONObject(i);
-                Log.i("bbbou", "jsonParse: " + article);
+                newsArticles.add(article);
+                Log.i("bbbou", "jsonParse: " + newsArticles);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return newsArticles;
     }
 }
