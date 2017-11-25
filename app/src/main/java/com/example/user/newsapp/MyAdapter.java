@@ -3,11 +3,14 @@ package com.example.user.newsapp;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -15,12 +18,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by user on 23/11/2017.
  */
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+
 
     private ArrayList<NewsArticleData> newsArticleDataArrayList;
     private Context context;
@@ -34,7 +40,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         //create all items into card
         public ImageView articleImage;
         public TextView articleAuthor;
@@ -46,6 +52,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             articleAuthor = itemView.findViewById(R.id.articleAuthor);
             articleTitle = itemView.findViewById(R.id.articleTitle);
             articleDescription = itemView.findViewById(R.id.articleDescription);
+            //set click listener to go on news view activity
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Date currentTime = Calendar.getInstance().getTime();
+            Log.d("data: ", "onCreateView: " + currentTime);
+            Log.d("cliccato", "onClick: beella" + getAdapterPosition());
         }
     }
 
@@ -67,6 +82,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.articleAuthor.setText(newsArticleDataArrayList.get(position).getAuthor());
         holder.articleDescription.setText(newsArticleDataArrayList.get(position).getDescription());
     }
+
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

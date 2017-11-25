@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class StoriesTabActivity extends AppCompatActivity {
 
@@ -131,7 +133,7 @@ public class StoriesTabActivity extends AppCompatActivity {
 
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
-            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setHasFixedSize(false);
 
             // use a linear layout manager
             mLayoutManager = new LinearLayoutManager(this.getContext());
@@ -151,6 +153,8 @@ public class StoriesTabActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     backgroundTask.execute(urlTopNews);
+                    //clear entire arraylist
+                    newsArticleDataArrayList.clear();
                     // specify an adapter (see also next example)
                     mAdapter = new MyAdapter(this.getContext(), newsArticleDataArrayList);
                     mRecyclerView.setAdapter(mAdapter);
@@ -164,6 +168,8 @@ public class StoriesTabActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     backgroundTask.execute(urlWorldNews);
+                    //clear entire arraylist
+                    newsArticleDataArrayList.clear();
                     // specify an adapter (see also next example)
                     mAdapter = new MyAdapter(this.getContext(), newsArticleDataArrayList);
                     mRecyclerView.setAdapter(mAdapter);
@@ -177,6 +183,8 @@ public class StoriesTabActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     backgroundTask.execute(urlSportNews);
+                    //clear entire arraylist
+                    newsArticleDataArrayList.clear();
                     // specify an adapter (see also next example)
                     mAdapter = new MyAdapter(this.getContext(), newsArticleDataArrayList);
                     mRecyclerView.setAdapter(mAdapter);
