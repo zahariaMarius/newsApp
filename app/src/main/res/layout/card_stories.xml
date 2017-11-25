@@ -13,26 +13,33 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:clickable="false"
+        android:elevation="2dp"
         android:padding="15dp"
+        android:theme="@style/AppTheme"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/articleImage"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:contentDescription="TODO"
                 app:srcCompat="@android:drawable/screen_background_dark_transparent" />
 
             <TextView
                 android:id="@+id/articleTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imageView"
+                android:layout_alignBottom="@+id/articleImage"
                 android:layout_alignParentStart="true"
                 android:paddingBottom="32dp"
                 android:paddingLeft="16dp"
@@ -46,10 +53,10 @@
                 android:id="@+id/articleAuthor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imageView"
+                android:layout_alignBottom="@+id/articleImage"
                 android:layout_alignParentStart="true"
                 android:paddingBottom="16dp"
-                android:paddingLeft="16dp"
+                android:paddingStart="16dp"
                 android:text="article author"
                 android:textColor="@android:color/white" />
 

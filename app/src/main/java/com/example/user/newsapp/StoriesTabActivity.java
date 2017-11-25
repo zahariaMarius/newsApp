@@ -99,7 +99,7 @@ public class StoriesTabActivity extends AppCompatActivity {
         protected RecyclerView mRecyclerView;
         protected RecyclerView.Adapter mAdapter;
         protected RecyclerView.LayoutManager mLayoutManager;
-        ArrayList<JSONObject> newsArticles = new ArrayList<JSONObject>();
+        ArrayList<NewsArticleData> newsArticleDataArrayList = new ArrayList<NewsArticleData>();
 
         /**
          * The fragment argument representing the section number for this
@@ -134,12 +134,8 @@ public class StoriesTabActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
 
             // use a linear layout manager
-            mLayoutManager = new LinearLayoutManager(rootView.getContext());
+            mLayoutManager = new LinearLayoutManager(this.getContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
-
-            // specify an adapter (see also next example)
-            mAdapter = new MyAdapter(newsArticles);
-            mRecyclerView.setAdapter(mAdapter);
 
             //create backgound ONJ
             BackgroundTask backgroundTask = new BackgroundTask(this);
@@ -155,6 +151,10 @@ public class StoriesTabActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     backgroundTask.execute(urlTopNews);
+                    // specify an adapter (see also next example)
+                    mAdapter = new MyAdapter(this.getContext(), newsArticleDataArrayList);
+                    mRecyclerView.setAdapter(mAdapter);
+
                     break;
                 case 2:
                     URL urlWorldNews = null;
@@ -164,23 +164,27 @@ public class StoriesTabActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     backgroundTask.execute(urlWorldNews);
+                    // specify an adapter (see also next example)
+                    mAdapter = new MyAdapter(this.getContext(), newsArticleDataArrayList);
+                    mRecyclerView.setAdapter(mAdapter);
+
                     break;
                 case 3:
                     URL urlSportNews = null;
                     try {
-                        urlSportNews = new URL("https://newsapi.org/v2/top-headlines?sources=bbc-sport&apiKey=fe03d77e633f4995a9cae0643c6a2857");
+                        urlSportNews = new URL("https://newsapi.org/v2/top-headlines?sources=the-sport-bible&apiKey=fe03d77e633f4995a9cae0643c6a2857");
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
                     backgroundTask.execute(urlSportNews);
+                    // specify an adapter (see also next example)
+                    mAdapter = new MyAdapter(this.getContext(), newsArticleDataArrayList);
+                    mRecyclerView.setAdapter(mAdapter);
+
                     break;
             }
 
             return rootView;
-        }
-
-        public void dataReady() {
-
         }
     }
 

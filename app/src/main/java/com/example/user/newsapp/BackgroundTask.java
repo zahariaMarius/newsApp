@@ -25,15 +25,37 @@ public class BackgroundTask extends AsyncTask<URL, Void, String> {
         fragment = placeholderFragment;
     }
 
-    public BackgroundTask() {
-
-    }
-
     protected String doInBackground(URL... urls) {
+        //initializate response to null;
         String response = null;
+        //create instance of API class
         GetAPIStories getAPIStories = new GetAPIStories();
         try {
+            //get the API response from passed url
             response = getAPIStories.run(urls[0].toString());
+            try {
+                //create json object and array to parse it
+                JSONObject jsonObj = new JSONObject(response);
+                JSONArray articles = jsonObj.getJSONArray("articles");
+                for (int i = 0; i < articles.length(); i++) {
+                    //get json article object
+                    JSONObject article = articles.getJSONObject(i);
+                    JSONObject source = articles.getJSONObject(i);
+                    //parse json obj and get property
+                    String author = article.getString("author");
+                    String title = article.getString("title");
+                    String description = article.getString("description");
+                    String url = article.getString("url");
+                    String urlToImage = article.getString("urlToImage");
+                    String publishedAt = article.getString("publishedAt");
+                    //create news articled instance and add on arraylist
+                    NewsArticleData newsArticleData = new NewsArticleData(author, title, description, url, urlToImage, publishedAt);
+                    //insert news into arrayList
+                    fragment.newsArticleDataArrayList.add(newsArticleData);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,27 +64,9 @@ public class BackgroundTask extends AsyncTask<URL, Void, String> {
 
     protected void onPostExecute(String response) {
         if (response != null) {
-            fragment.newsArticles = jsonParse(response);
             fragment.mAdapter.notifyDataSetChanged();
         }
     }
 
-    protected ArrayList<JSONObject> jsonParse(String jsonResponse) {
 
-        ArrayList<JSONObject> newsArticles = new ArrayList<JSONObject>();
-
-        try {
-            JSONObject jsonObj = new JSONObject(jsonResponse);
-            JSONArray articles = jsonObj.getJSONArray("articles");
-
-            for (int i = 0; i < articles.length(); i++) {
-                JSONObject article = articles.getJSONObject(i);
-                newsArticles.add(article);
-                Log.i("bbbou", "jsonParse: " + newsArticles);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return newsArticles;
-    }
 }
