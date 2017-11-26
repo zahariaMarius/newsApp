@@ -27,7 +27,6 @@ import java.util.Date;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-
     private ArrayList<NewsArticleData> newsArticleDataArrayList;
     private Context context;
 
@@ -83,11 +82,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.articleDescription.setText(newsArticleDataArrayList.get(position).getDescription());
     }
 
-
-
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return newsArticleDataArrayList.size();
+        return  newsArticleDataArrayList.size();
     }
 }

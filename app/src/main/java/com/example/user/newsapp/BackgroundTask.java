@@ -57,7 +57,7 @@ public class BackgroundTask extends AsyncTask<URL, Void, String> {
             for (int i = 0; i < articles.length(); i++) {
                 //get json article object
                 JSONObject article = articles.getJSONObject(i);
-                JSONObject source = articles.getJSONObject(i);
+                JSONObject source = article.getJSONObject("source");
                 //parse json obj and get property
                 String author = article.getString("author");
                 String title = article.getString("title");
@@ -68,7 +68,18 @@ public class BackgroundTask extends AsyncTask<URL, Void, String> {
                 //create news articled instance and add on arraylist
                 NewsArticleData newsArticleData = new NewsArticleData(author, title, description, url, urlToImage, publishedAt);
                 //insert news into arrayList
-                fragment.newsArticleDataArrayList.add(newsArticleData);
+                String idNews = source.getString("id");
+                switch (idNews) {
+                    case "bbc-news":
+                        NewsArticleSingleton.getInstance().addTopNewsArticle(newsArticleData);
+                        break;
+                    case "ansa":
+                        NewsArticleSingleton.getInstance().addWorldNewsArticle(newsArticleData);
+                        break;
+                    case "the-sport-bible":
+                        NewsArticleSingleton.getInstance().addSportNewsArticle(newsArticleData);
+                        break;
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

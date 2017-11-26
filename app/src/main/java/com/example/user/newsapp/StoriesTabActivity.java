@@ -1,6 +1,7 @@
 package com.example.user.newsapp;
 
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -48,23 +49,22 @@ public class StoriesTabActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stories_tab);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -101,7 +101,7 @@ public class StoriesTabActivity extends AppCompatActivity {
         protected RecyclerView mRecyclerView;
         protected RecyclerView.Adapter mAdapter;
         protected RecyclerView.LayoutManager mLayoutManager;
-        ArrayList<NewsArticleData> newsArticleDataArrayList = new ArrayList<NewsArticleData>();
+        protected BackgroundTask backgroundTask = new BackgroundTask(this);
 
         /**
          * The fragment argument representing the section number for this
@@ -124,73 +124,78 @@ public class StoriesTabActivity extends AppCompatActivity {
             return fragment;
         }
 
+        /**
+         *
+         * @param url API url
+         * @throws MalformedURLException
+         */
+        public void getNewsArticleFromApi(URL url) throws MalformedURLException {
+            backgroundTask.execute(url);
+        }
+
+        /**
+         * function that return the rigth arrayList for the display tab
+         * @return ArrayList<NewsArticleData>
+         */
+        public ArrayList<NewsArticleData> getNewsArticleData() {
+            int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
+            switch (sectionNumber) {
+                case 1: return NewsArticleSingleton.getInstance().getTopNewsArrayList();
+                case 2: return NewsArticleSingleton.getInstance().getWorldNewsArrayList();
+                case 3: return NewsArticleSingleton.getInstance().getSportNewsArrayList();
+            }
+            return null;
+        }
+
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
+            switch (sectionNumber) {
+                case 1:
+                    try {
+                        URL urlTopNews = new URL("https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=fe03d77e633f4995a9cae0643c6a2857");
+                        getNewsArticleFromApi(urlTopNews);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 2:
+                    try {
+                        URL urlWorldNews = new URL("https://newsapi.org/v2/top-headlines?sources=ansa&apiKey=fe03d77e633f4995a9cae0643c6a2857");
+                        getNewsArticleFromApi(urlWorldNews);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 3:
+                    try {
+                        URL urlSportNews = new URL("https://newsapi.org/v2/top-headlines?sources=the-sport-bible&apiKey=fe03d77e633f4995a9cae0643c6a2857");
+                        getNewsArticleFromApi(urlSportNews);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_stories_tab, container, false);
 
-            mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cardStoriesRecycleView);
+            mRecyclerView = rootView.findViewById(R.id.cardStoriesRecycleView);
 
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
-            mRecyclerView.setHasFixedSize(false);
+            mRecyclerView.setHasFixedSize(true);
 
             // use a linear layout manager
             mLayoutManager = new LinearLayoutManager(this.getContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
 
-            //create backgound ONJ
-            BackgroundTask backgroundTask = new BackgroundTask(this);
-            //get the section number
-            int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
-            //switch the section number and execute the call
-            switch (sectionNumber) {
-                case 1:
-                    URL urlTopNews = null;
-                    try {
-                        urlTopNews = new URL("https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=fe03d77e633f4995a9cae0643c6a2857");
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                    backgroundTask.execute(urlTopNews);
-                    //clear entire arraylist
-                    newsArticleDataArrayList.clear();
-                    // specify an adapter (see also next example)
-                    mAdapter = new MyAdapter(this.getContext(), newsArticleDataArrayList);
-                    mRecyclerView.setAdapter(mAdapter);
-
-                    break;
-                case 2:
-                    URL urlWorldNews = null;
-                    try {
-                        urlWorldNews = new URL("https://newsapi.org/v2/top-headlines?sources=ansa&apiKey=fe03d77e633f4995a9cae0643c6a2857");
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                    backgroundTask.execute(urlWorldNews);
-                    //clear entire arraylist
-                    newsArticleDataArrayList.clear();
-                    // specify an adapter (see also next example)
-                    mAdapter = new MyAdapter(this.getContext(), newsArticleDataArrayList);
-                    mRecyclerView.setAdapter(mAdapter);
-
-                    break;
-                case 3:
-                    URL urlSportNews = null;
-                    try {
-                        urlSportNews = new URL("https://newsapi.org/v2/top-headlines?sources=the-sport-bible&apiKey=fe03d77e633f4995a9cae0643c6a2857");
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                    backgroundTask.execute(urlSportNews);
-                    //clear entire arraylist
-                    newsArticleDataArrayList.clear();
-                    // specify an adapter (see also next example)
-                    mAdapter = new MyAdapter(this.getContext(), newsArticleDataArrayList);
-                    mRecyclerView.setAdapter(mAdapter);
-
-                    break;
-            }
+            // create new adapter and pass it data
+            mAdapter = new MyAdapter(this.getContext(), getNewsArticleData());
+            mRecyclerView.setAdapter(mAdapter);
 
             return rootView;
         }
