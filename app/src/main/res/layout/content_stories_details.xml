@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.user.newsapp.StoriesDetailsActivity"
+    tools:showIn="@layout/activity_stories_details">
+
+
+    <TextView
+        android:id="@+id/articleDetailsTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingStart="16dp"
+        android:paddingRight="16dp"
+        android:text="Article title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="24sp"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:id="@+id/articleDetailsPublished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Article published at"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/articleDetailsTitle"
+        android:paddingStart="16dp"
+        tools:ignore="RtlSymmetry" />
+
+    <ImageView
+        android:id="@+id/articleDetailsImage"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/articleDetailsPublished"
+        app:srcCompat="@android:drawable/screen_background_dark_transparent" />
+
+    <TextView
+        android:id="@+id/articleDetailsDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Article description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/articleDetailsImage" />
+
+    <TextView
+        android:id="@+id/articleDetailsAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/articleDetailsDescription"
+        tools:text="@string/read_more_article_author" />
+
+    <TextView
+        android:id="@+id/provaDbText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="436dp" />
+    />
+</android.support.constraint.ConstraintLayout>

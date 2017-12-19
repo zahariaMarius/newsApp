@@ -1,27 +1,47 @@
 package com.example.user.newsapp;
 
+import java.io.Serializable;
 import java.net.URL;
+import java.util.UUID;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by user on 25/11/2017.
  */
 
-public class NewsArticleData {
+public class NewsArticleData extends RealmObject implements Serializable{
+
+    @PrimaryKey
+    private String uuid;
     private String author;
     private String title;
     private String description;
     private String url;
     private String urlToImage;
     private String publishedAt;
+    private static final long serialVersionUID = 1;
 
     public NewsArticleData(String author, String title, String description, String url, String urlToImage, String publishedAt) {
-
+        this.uuid = UUID.randomUUID().toString();
         this.author = author;
         this.title = title;
         this.description = description;
         this.url = url;
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
+    }
+
+    public NewsArticleData() {
+    }
+
+    public void setUuid() {
+        this.uuid = UUID.randomUUID().toString();
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 
     public String getAuthor() {
