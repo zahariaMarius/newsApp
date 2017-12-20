@@ -13,25 +13,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".StoriesTabActivity"
+            android:name=".ArticlesTabActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".StoriesDetailsActivity"
+            android:name=".ArticlesDetailsActivity"
             android:label="@string/title_activity_stories_details"
-            android:parentActivityName=".StoriesTabActivity"
+            android:parentActivityName=".ArticlesTabActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.user.newsapp.StoriesTabActivity" />
+                android:value="com.example.user.newsapp.ArticlesTabActivity" />
         </activity>
+
+        <activity
+            android:name="com.example.user.newsapp.ArticlesFavoriteTabActivity"
+            android:label="@string/title_activity_stories_favorite_tab"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.user.newsapp.ArticlesTabActivity" />
+        </activity>
+
     </application>
 
 </manifest>

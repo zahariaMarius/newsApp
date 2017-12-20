@@ -2,43 +2,34 @@ package com.example.user.newsapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 /**
  * Created by user on 23/11/2017.
  */
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class ArticlesTabActivityAdapter extends RecyclerView.Adapter<ArticlesTabActivityAdapter.ViewHolder> {
 
     MyFunctions myFunctions = new MyFunctions();
-    private ArrayList<NewsArticleData> newsArticleDataArrayList;
+    private ArrayList<NewsArticle> newsArticleArrayList;
     private Context context;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(Context ctx, ArrayList<NewsArticleData> myDataset) {
+    public ArticlesTabActivityAdapter(Context ctx, ArrayList<NewsArticle> myDataset) {
         context = ctx;
-        newsArticleDataArrayList = myDataset;
+        newsArticleArrayList = myDataset;
     }
 
     // Provide a reference to the views for each data item
@@ -66,23 +57,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             int idCliccato = getAdapterPosition();
             Log.d("data: ", "onCreateView: " + currentTime);
             Log.d("cliccato", "onClick: beella" + getAdapterPosition());
-            //Log.d("oggetto cliccato", String.valueOf(newsArticleDataArrayList.get(idCliccato).getTitle()));
+            //Log.d("oggetto cliccato", String.valueOf(newsArticleArrayList.get(idCliccato).getTitle()));
             goToArticleDetailsActivity(idCliccato);
         }
 
         public void goToArticleDetailsActivity(int articleId) {
-            Intent intent = new Intent(context, StoriesDetailsActivity.class);
-            NewsArticleData newsArticleData = newsArticleDataArrayList.get(articleId);
-            intent.putExtra("Article_selected", newsArticleData);
+            Intent intent = new Intent(context, ArticlesDetailsActivity.class);
+            NewsArticle newsArticle = newsArticleArrayList.get(articleId);
+            intent.putExtra("Article_selected", newsArticle);
             context.startActivity(intent);
         }
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ArticlesTabActivityAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View cardItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_stories, parent,false);
+        View cardItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_articles, parent,false);
         return new ViewHolder(cardItem);
     }
 
@@ -92,15 +83,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        Picasso.with(context).load(newsArticleDataArrayList.get(position).getUrlToImage()).into(holder.articleImage);
-        holder.articleTitle.setText(newsArticleDataArrayList.get(position).getTitle());
-        holder.articleAuthor.setText(newsArticleDataArrayList.get(position).getAuthor());
-        holder.articlePublished.setText(myFunctions.parseArticleDate(newsArticleDataArrayList.get(position).getPublishedAt()));
+        Picasso.with(context).load(newsArticleArrayList.get(position).getUrlToImage()).into(holder.articleImage);
+        holder.articleTitle.setText(newsArticleArrayList.get(position).getTitle());
+        holder.articleAuthor.setText(newsArticleArrayList.get(position).getAuthor());
+        holder.articlePublished.setText(myFunctions.parseArticleDate(newsArticleArrayList.get(position).getPublishedAt()));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return  newsArticleDataArrayList.size();
+        return  newsArticleArrayList.size();
     }
 }

@@ -1,8 +1,6 @@
 package com.example.user.newsapp;
 
 import android.os.AsyncTask;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -11,7 +9,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 
 /**
  * Created by user on 22/11/2017.
@@ -19,9 +16,9 @@ import java.util.ArrayList;
 
 public class BackgroundTask extends AsyncTask<URL, Void, String> {
 
-    StoriesTabActivity.PlaceholderFragment fragment;
+    ArticlesTabActivity.PlaceholderFragment fragment;
 
-    public BackgroundTask(StoriesTabActivity.PlaceholderFragment placeholderFragment) {
+    public BackgroundTask(ArticlesTabActivity.PlaceholderFragment placeholderFragment) {
         fragment = placeholderFragment;
     }
 
@@ -66,18 +63,18 @@ public class BackgroundTask extends AsyncTask<URL, Void, String> {
                 String urlToImage = article.getString("urlToImage");
                 String publishedAt = article.getString("publishedAt");
                 //create news articled instance and add on arraylist
-                NewsArticleData newsArticleData = new NewsArticleData(author, title, description, url, urlToImage, publishedAt);
+                NewsArticle newsArticle = new NewsArticle(author, title, description, url, urlToImage, publishedAt);
                 //insert news into arrayList
                 String idNews = source.getString("id");
                 switch (idNews) {
                     case "bbc-news":
-                        NewsArticleSingleton.getInstance().addTopNewsArticle(newsArticleData);
+                        NewsArticleSingleton.getInstance().addTopNewsArticle(newsArticle);
                         break;
                     case "ansa":
-                        NewsArticleSingleton.getInstance().addWorldNewsArticle(newsArticleData);
+                        NewsArticleSingleton.getInstance().addWorldNewsArticle(newsArticle);
                         break;
                     case "the-sport-bible":
-                        NewsArticleSingleton.getInstance().addSportNewsArticle(newsArticleData);
+                        NewsArticleSingleton.getInstance().addSportNewsArticle(newsArticle);
                         break;
                 }
             }

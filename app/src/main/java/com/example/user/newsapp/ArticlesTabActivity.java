@@ -1,10 +1,8 @@
 package com.example.user.newsapp;
 
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,25 +13,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.TextView;
-
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
-public class StoriesTabActivity extends AppCompatActivity {
+public class ArticlesTabActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -52,7 +42,7 @@ public class StoriesTabActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stories_tab);
+        setContentView(R.layout.activity_articles_tab);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,7 +64,7 @@ public class StoriesTabActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_stories_tab, menu);
+        getMenuInflater().inflate(R.menu.menu_articles_tab, menu);
         return true;
     }
 
@@ -85,10 +75,16 @@ public class StoriesTabActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_favorite) {
+            goToStoriesFavoriteActivity();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void goToStoriesFavoriteActivity() {
+        Intent launchStoriesFavoriteActivity = new Intent(this, ArticlesFavoriteTabActivity.class);
+        startActivity(launchStoriesFavoriteActivity);
     }
 
     /**
@@ -133,9 +129,9 @@ public class StoriesTabActivity extends AppCompatActivity {
 
         /**
          * function that return the rigth arrayList for the display tab
-         * @return ArrayList<NewsArticleData>
+         * @return ArrayList<NewsArticle>
          */
-        public ArrayList<NewsArticleData> getNewsArticleData() {
+        public ArrayList<NewsArticle> getNewsArticleData() {
             int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
             switch (sectionNumber) {
                 case 1: return NewsArticleSingleton.getInstance().getTopNewsArrayList();
@@ -179,7 +175,7 @@ public class StoriesTabActivity extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_stories_tab, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_articles_tab, container, false);
 
             mRecyclerView = rootView.findViewById(R.id.cardStoriesRecycleView);
 
@@ -192,7 +188,7 @@ public class StoriesTabActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(mLayoutManager);
 
             // create new adapter and pass it data
-            mAdapter = new MyAdapter(this.getContext(), getNewsArticleData());
+            mAdapter = new ArticlesTabActivityAdapter(this.getContext(), getNewsArticleData());
             mRecyclerView.setAdapter(mAdapter);
             return rootView;
         }

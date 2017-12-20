@@ -11,7 +11,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by user on 25/11/2017.
  */
 
-public class NewsArticleData extends RealmObject implements Serializable{
+public class NewsArticle extends RealmObject implements Serializable{
 
     @PrimaryKey
     private String uuid;
@@ -23,7 +23,7 @@ public class NewsArticleData extends RealmObject implements Serializable{
     private String publishedAt;
     private static final long serialVersionUID = 1;
 
-    public NewsArticleData(String author, String title, String description, String url, String urlToImage, String publishedAt) {
+    public NewsArticle(String author, String title, String description, String url, String urlToImage, String publishedAt) {
         this.uuid = UUID.randomUUID().toString();
         this.author = author;
         this.title = title;
@@ -33,7 +33,7 @@ public class NewsArticleData extends RealmObject implements Serializable{
         this.publishedAt = publishedAt;
     }
 
-    public NewsArticleData() {
+    public NewsArticle() {
     }
 
     public void setUuid() {

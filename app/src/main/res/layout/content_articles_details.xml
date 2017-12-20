@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.user.newsapp.StoriesDetailsActivity"
-    tools:showIn="@layout/activity_stories_details">
+    tools:context="com.example.user.newsapp.ArticlesDetailsActivity"
+    tools:showIn="@layout/activity_articles_details">
 
 
     <TextView
@@ -62,8 +62,6 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/articleDetailsDescription"
-        tools:text="@string/read_more_article_author" /><![CDATA[
-
-    />
-]]>
+        tools:text="@string/read_more_article_author"
+        android:onClick="readMoreOnBrowser"/>
 </android.support.constraint.ConstraintLayout>

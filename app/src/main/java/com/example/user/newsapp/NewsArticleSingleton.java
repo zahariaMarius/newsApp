@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class NewsArticleSingleton {
 
     private static NewsArticleSingleton newsArticleSingleton = null;
-    private ArrayList<NewsArticleData> topNewsArrayList = new ArrayList<NewsArticleData>();
-    private ArrayList<NewsArticleData> worldNewsArrayList = new ArrayList<NewsArticleData>();
-    private ArrayList<NewsArticleData> sportNewsArrayList = new ArrayList<NewsArticleData>();
+    private ArrayList<NewsArticle> topNewsArrayList = new ArrayList<NewsArticle>();
+    private ArrayList<NewsArticle> worldNewsArrayList = new ArrayList<NewsArticle>();
+    private ArrayList<NewsArticle> sportNewsArrayList = new ArrayList<NewsArticle>();
 
     private NewsArticleSingleton() {}
 
@@ -22,27 +22,27 @@ public class NewsArticleSingleton {
         return newsArticleSingleton;
     }
 
-    public void addTopNewsArticle(NewsArticleData newsArticleData) {
-        this.topNewsArrayList.add(newsArticleData);
+    public void addTopNewsArticle(NewsArticle newsArticle) {
+        this.topNewsArrayList.add(newsArticle);
     }
 
-    public void addWorldNewsArticle(NewsArticleData newsArticleData) {
-        this.worldNewsArrayList.add(newsArticleData);
+    public void addWorldNewsArticle(NewsArticle newsArticle) {
+        this.worldNewsArrayList.add(newsArticle);
     }
 
-    public void addSportNewsArticle(NewsArticleData newsArticleData) {
-        this.sportNewsArrayList.add(newsArticleData);
+    public void addSportNewsArticle(NewsArticle newsArticle) {
+        this.sportNewsArrayList.add(newsArticle);
     }
 
-    public ArrayList<NewsArticleData> getTopNewsArrayList() {
+    public ArrayList<NewsArticle> getTopNewsArrayList() {
         return topNewsArrayList;
     }
 
-    public ArrayList<NewsArticleData> getWorldNewsArrayList() {
+    public ArrayList<NewsArticle> getWorldNewsArrayList() {
         return worldNewsArrayList;
     }
 
-    public ArrayList<NewsArticleData> getSportNewsArrayList() {
+    public ArrayList<NewsArticle> getSportNewsArrayList() {
         return sportNewsArrayList;
     }
 
