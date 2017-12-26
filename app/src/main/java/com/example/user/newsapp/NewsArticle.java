@@ -2,6 +2,7 @@ package com.example.user.newsapp;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.util.Date;
 import java.util.UUID;
 
 import io.realm.RealmObject;
@@ -21,9 +22,11 @@ public class NewsArticle extends RealmObject implements Serializable{
     private String url;
     private String urlToImage;
     private String publishedAt;
+    private String type;
+    private Date savedDate;
     private static final long serialVersionUID = 1;
 
-    public NewsArticle(String author, String title, String description, String url, String urlToImage, String publishedAt) {
+    public NewsArticle(String author, String title, String description, String url, String urlToImage, String publishedAt, String type) {
         this.uuid = UUID.randomUUID().toString();
         this.author = author;
         this.title = title;
@@ -31,6 +34,7 @@ public class NewsArticle extends RealmObject implements Serializable{
         this.url = url;
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
+        this.type = type;
     }
 
     public NewsArticle() {
@@ -76,9 +80,7 @@ public class NewsArticle extends RealmObject implements Serializable{
         this.url = url;
     }
 
-    public String getUrlToImage() {
-        return urlToImage;
-    }
+    public String getUrlToImage() { return urlToImage; }
 
     public void setUrlToImage(String urlToImage) {
         this.urlToImage = urlToImage;
@@ -90,5 +92,21 @@ public class NewsArticle extends RealmObject implements Serializable{
 
     public void setPublishedAt(String publishedAt) {
         this.publishedAt = publishedAt;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Date getSavedDate() {
+        return savedDate;
+    }
+
+    public void setSavedDate(Date savedDate) {
+        this.savedDate = savedDate;
     }
 }

@@ -62,10 +62,10 @@ public class BackgroundTask extends AsyncTask<URL, Void, String> {
                 String url = article.getString("url");
                 String urlToImage = article.getString("urlToImage");
                 String publishedAt = article.getString("publishedAt");
-                //create news articled instance and add on arraylist
-                NewsArticle newsArticle = new NewsArticle(author, title, description, url, urlToImage, publishedAt);
-                //insert news into arrayList
                 String idNews = source.getString("id");
+                //create news articled instance and add on arraylist
+                NewsArticle newsArticle = new NewsArticle(author, title, description, url, urlToImage, publishedAt, idNews);
+                //insert news into arrayList
                 switch (idNews) {
                     case "bbc-news":
                         NewsArticleSingleton.getInstance().addTopNewsArticle(newsArticle);

@@ -1,5 +1,6 @@
 package com.example.user.newsapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -23,9 +24,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class ArticlesTabActivity extends AppCompatActivity {
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
-    /**
+public class ArticlesTabActivity extends AppCompatActivity {
+        /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
@@ -46,6 +49,9 @@ public class ArticlesTabActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Context context = getApplicationContext();
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());

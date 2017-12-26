@@ -3,7 +3,6 @@ package com.example.user.newsapp;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,28 +12,24 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+
+import io.realm.Realm;
 
 /**
- * Created by user on 23/11/2017.
+ * Created by zahrsino on 21/12/17.
  */
 
-public class ArticlesTabActivityAdapter extends RecyclerView.Adapter<ArticlesTabActivityAdapter.ViewHolder> {
+public class ArticlesFavoriteTabActivityAdapter extends RecyclerView.Adapter<ArticlesFavoriteTabActivityAdapter.ViewHolder> {
 
-    MyFunctions myFunctions = new MyFunctions();
-    private ArrayList<NewsArticle> newsArticleArrayList;
+    private MyFunctions myFunctions = new MyFunctions();
     private Context context;
+    private ArrayList<NewsArticle> newsArticleArrayList;
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public ArticlesTabActivityAdapter(Context ctx, ArrayList<NewsArticle> myDataset) {
+    public ArticlesFavoriteTabActivityAdapter(Context ctx, ArrayList<NewsArticle> myDataSet) {
         context = ctx;
-        newsArticleArrayList = myDataset;
+        newsArticleArrayList = myDataSet;
     }
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         //create all items into card
         ImageView articleImage;
@@ -59,35 +54,28 @@ public class ArticlesTabActivityAdapter extends RecyclerView.Adapter<ArticlesTab
 
         public void goToArticleDetailsActivity(int articleId) {
             Intent intent = new Intent(context, ArticlesDetailsActivity.class);
-            NewsArticle newsArticle = newsArticleArrayList.get(articleId);
-            intent.putExtra("Article_selected", newsArticle);
+            String newsArticleId = newsArticleArrayList.get(articleId).getUuid();
+            intent.putExtra("Id_Article_selected", newsArticleId);
             context.startActivity(intent);
         }
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
-    public ArticlesTabActivityAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
+    public ArticlesFavoriteTabActivityAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View cardItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_articles, parent,false);
-        return new ViewHolder(cardItem);
+        return new ArticlesFavoriteTabActivityAdapter.ViewHolder(cardItem);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
+    public void onBindViewHolder(ArticlesFavoriteTabActivityAdapter.ViewHolder holder, int position) {
         Picasso.with(context).load(newsArticleArrayList.get(position).getUrlToImage()).into(holder.articleImage);
         holder.articleTitle.setText(newsArticleArrayList.get(position).getTitle());
         holder.articleAuthor.setText(newsArticleArrayList.get(position).getAuthor());
         holder.articlePublished.setText(myFunctions.parseArticleDate(newsArticleArrayList.get(position).getPublishedAt()));
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return  newsArticleArrayList.size();
+        return newsArticleArrayList.size();
     }
 }
