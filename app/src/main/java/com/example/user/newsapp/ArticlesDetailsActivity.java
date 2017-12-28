@@ -76,6 +76,7 @@ public class ArticlesDetailsActivity extends AppCompatActivity {
         author.setText(getString(R.string.read_more_article_author) + " " + newsArticle.getAuthor());
         Picasso.with(this).load(newsArticle.getUrlToImage()).into(imageView);
         articleUri = Uri.parse(newsArticle.getUrl());
+        myFunctions.getComparedDate(newsArticle.getPublishedAt());
     }
 
     public void readMoreOnBrowser(View view) {
@@ -103,6 +104,9 @@ public class ArticlesDetailsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.action_favorite:
                 saveFavoriteArticleOnDB(newsArticle);
                 return true;
@@ -238,5 +242,11 @@ public class ArticlesDetailsActivity extends AppCompatActivity {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

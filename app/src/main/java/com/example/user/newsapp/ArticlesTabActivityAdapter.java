@@ -76,13 +76,12 @@ public class ArticlesTabActivityAdapter extends RecyclerView.Adapter<ArticlesTab
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         Picasso.with(context).load(newsArticleArrayList.get(position).getUrlToImage()).into(holder.articleImage);
         holder.articleTitle.setText(newsArticleArrayList.get(position).getTitle());
         holder.articleAuthor.setText(newsArticleArrayList.get(position).getAuthor());
-        holder.articlePublished.setText(myFunctions.parseArticleDate(newsArticleArrayList.get(position).getPublishedAt()));
+        holder.articlePublished.setText(myFunctions.getComparedDate(newsArticleArrayList.get(position).getPublishedAt()));
     }
 
     // Return the size of your dataset (invoked by the layout manager)

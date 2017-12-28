@@ -71,7 +71,7 @@ public class ArticlesFavoriteTabActivityAdapter extends RecyclerView.Adapter<Art
         Picasso.with(context).load(newsArticleArrayList.get(position).getUrlToImage()).into(holder.articleImage);
         holder.articleTitle.setText(newsArticleArrayList.get(position).getTitle());
         holder.articleAuthor.setText(newsArticleArrayList.get(position).getAuthor());
-        holder.articlePublished.setText(myFunctions.parseArticleDate(newsArticleArrayList.get(position).getPublishedAt()));
+        holder.articlePublished.setText(myFunctions.getComparedDate(newsArticleArrayList.get(position).getPublishedAt()));
     }
 
     @Override
